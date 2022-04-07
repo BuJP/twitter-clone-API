@@ -4,10 +4,16 @@ const db  =  require("../configs/database");
 interface ITweets {
     id : number;
     author : number; // FK 
-    content ?: string | null;
+    content : string ;
     createdAt?: Date;
     updatedAt?: Date;
 }
+
+interface ITweetsCreateInput extends Pick<ITweets, 'author' | 'content'>{}
+interface ITweetsCreateInputBody extends Omit<ITweetsCreateInput, 'author'>{}
+
+interface ITweetsCreateOutput extends Required<ITweets>{}
+
 
 const tweets = db.define('tweets',{
     id:{
@@ -23,3 +29,8 @@ const tweets = db.define('tweets',{
     
 })
 module.exports =  tweets;
+export {
+    ITweetsCreateInput,
+    ITweetsCreateInputBody,
+    ITweetsCreateOutput
+}

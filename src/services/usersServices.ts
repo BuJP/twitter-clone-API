@@ -12,6 +12,7 @@ export class UsersServices {
     // CREATE USER
     async createOne(input : IUsersInput) : Promise<IUsersOutput> {
         const newUser = await users.create(input);
+        
         return newUser;
     }
 

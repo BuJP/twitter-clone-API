@@ -6,6 +6,62 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
+			"ITweetsCreateOutput": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"author": {
+						"type": "number",
+						"format": "double"
+					},
+					"content": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"author",
+					"content",
+					"createdAt",
+					"updatedAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_ITweetsCreateInput.Exclude_keyofITweetsCreateInput.author__": {
+				"properties": {
+					"content": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"content"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"ITweetsCreateInputBody": {
+				"properties": {
+					"content": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"content"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"IUsersOutput": {
 				"properties": {
 					"id": {
@@ -144,6 +200,97 @@
 				"parameters": []
 			}
 		},
+		"/tweets": {
+			"post": {
+				"operationId": "CreateTweet",
+				"responses": {
+					"201": {
+						"description": "Created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ITweetsCreateOutput"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Create tweet"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ITweetsCreateInputBody"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetAllTweets",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ITweetsCreateOutput"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Get all tweets"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/tweets/{tweetId}": {
+			"get": {
+				"operationId": "GetOneTweet",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ITweetsCreateOutput"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Get tweet by id"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "tweetId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
 		"/users": {
 			"post": {
 				"operationId": "CreateUser",
@@ -195,7 +342,11 @@
 				"tags": [
 					"Get all users"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
 				"parameters": []
 			}
 		},

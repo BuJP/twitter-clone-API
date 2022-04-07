@@ -1,4 +1,4 @@
-import {Controller, Get,Post,SuccessResponse, Body,Route, Tags } from "tsoa";
+import {Controller, Get,Post,SuccessResponse, Body,Route, Tags, Security } from "tsoa";
 import {IUsersOutput, IUsersInput, IUsersLogin, IUsersLoginOutput} from '../models/users';
 import {UsersServices} from "../services/usersServices";
 
@@ -27,6 +27,7 @@ export class usersController extends Controller {
 
 
     @Tags("Get all users")
+    @Security("jwt")
     @Get()
     public async getAllUsers(): Promise<IUsersOutput[]>{
         const AllUsers = await new UsersServices().getAll();
