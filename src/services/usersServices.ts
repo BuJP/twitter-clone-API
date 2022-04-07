@@ -30,7 +30,8 @@ export class UsersServices {
             // USER NOT FOUND
             return output;
         }
-        else if(!user.validPassword(input.password)) {
+
+        else if(!await user.validPassword(input.password)) {
             // WRONG PASSWORD
             return output;
         }
