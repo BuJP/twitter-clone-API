@@ -1,6 +1,7 @@
-import express, {Request, Response} from 'express';
+import express from 'express';
 import { RegisterRoutes } from "./routes/routes";
 import * as swaggerUi from "swagger-ui-express";
+const db = require('./configs/database');
 require('dotenv').config();
 
 
@@ -16,11 +17,16 @@ try{
 }catch(err){
     console.log(err);
 }
-  
 
 
-app.listen(PORT,()=>{
-    console.log('app runing on port '+ PORT);
-    
-});
+
+
+db.sync().then(()=>{
+    app.listen(PORT,()=>{
+        console.log('app runing on port '+ PORT);  
+    });
+}).catch((err: any)=>{
+    console.log(err);
+})
+
 
