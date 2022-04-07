@@ -1,6 +1,7 @@
 import express from 'express';
 import { RegisterRoutes } from "./routes/routes";
 import * as swaggerUi from "swagger-ui-express";
+import bodyParser from "body-parser";
 const db = require('./configs/database');
 require('dotenv').config();
 
@@ -8,6 +9,15 @@ require('dotenv').config();
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+app.use(
+    bodyParser.urlencoded({
+      extended: true,
+    })
+  );
+  app.use(bodyParser.json());
+
+require('./models/index');
+
 
 RegisterRoutes(app);
 
