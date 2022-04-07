@@ -34,4 +34,11 @@ export class tweetsController extends Controller {
         return await new TweetsServices().getOne(tweetId);
     }
 
+    @Tags("Add a like to a tweet")
+    @SuccessResponse("201 | 200", "Added | Deleted")
+    @Security("jwt")
+    @Post('{tweetId}/liked')
+    public async likedTweet(@Path() tweetId: number, @Request() request: any){
+        return await new TweetsServices().liked(tweetId, request.user.id);
+    }
 }

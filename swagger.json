@@ -291,6 +291,60 @@
 				]
 			}
 		},
+		"/tweets/{tweetId}/liked": {
+			"post": {
+				"operationId": "LikedTweet",
+				"responses": {
+					"201 | 200": {
+						"description": "Added | Deleted",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{},
+										{
+											"properties": {
+												"message": {
+													"type": "string"
+												},
+												"httpCode": {
+													"type": "number",
+													"format": "double"
+												}
+											},
+											"required": [
+												"message",
+												"httpCode"
+											],
+											"type": "object"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Add a like to a tweet"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "tweetId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
 		"/users": {
 			"post": {
 				"operationId": "CreateUser",
