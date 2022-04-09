@@ -10,6 +10,10 @@ interface ITweet_comments {
     createdAt?: Date;
     updatedAt?: Date;
 }
+export interface ITweet_commentsInput extends Pick<ITweet_comments, 'user' | 'tweet' | 'comment'>{};
+export interface ITweet_commentsInputBody extends Omit<ITweet_commentsInput, 'user' | 'tweet'>{};
+
+export interface ITweet_commentsOutput extends Required<ITweet_comments>{};
 
 const tweet_comments = db.define('tweet_comments',{
     id:{

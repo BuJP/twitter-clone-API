@@ -27,6 +27,33 @@ export function expressAuthentication(
       });
       
     }
+
+    if (securityName == "jwtOptional") {
+      console.log("dzaaaaaaaaaaa");
+      const authHeader = request.headers['authorization']
+      const token = authHeader && authHeader.split(' ')[1];
+
+      return new Promise((resolve, reject) => {
+        if (!token) {
+
+          resolve({})
+          
+        }
+        jwt.verify(token,  process.env.ACCESS_TOKEN_SECRET, function (err: any, decoded: any) {
+          if (err) {
+              console.log(token);
+              
+            resolve({})
+          } else {
+
+
+            resolve(decoded);
+          }
+        });
+      });
+    
+    }
+
     return Promise.reject({});
   }
   

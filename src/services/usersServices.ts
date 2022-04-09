@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const users = require('../models/users')
 
+const tweet_likes = require('../models/tweet_comments');
 
 
 
@@ -60,7 +61,11 @@ export class UsersServices {
 
     async getAll():Promise<IUsersOutput[]>{
         
-        const allUsers = users.findAll({});
+        const allUsers = users.findAll({
+            include :[{
+                model: tweet_likes
+            }]
+        });
         return allUsers;
     }
     

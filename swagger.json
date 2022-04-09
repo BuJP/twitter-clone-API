@@ -62,6 +62,84 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"IBasicOutput": {
+				"properties": {
+					"httpCode": {
+						"type": "number",
+						"format": "double"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"httpCode",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ITweet_commentsOutput": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"user": {
+						"type": "number",
+						"format": "double"
+					},
+					"tweet": {
+						"type": "number",
+						"format": "double"
+					},
+					"comment": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				},
+				"required": [
+					"id",
+					"user",
+					"tweet",
+					"comment",
+					"createdAt",
+					"updatedAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Pick_ITweet_commentsInput.Exclude_keyofITweet_commentsInput.user-or-tweet__": {
+				"properties": {
+					"comment": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"comment"
+				],
+				"type": "object",
+				"description": "From T, pick a set of properties whose keys are in the union K"
+			},
+			"ITweet_commentsInputBody": {
+				"properties": {
+					"comment": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"comment"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"IUsersOutput": {
 				"properties": {
 					"id": {
@@ -255,7 +333,11 @@
 				"tags": [
 					"Get all tweets"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwtOptional": []
+					}
+				],
 				"parameters": []
 			}
 		},
@@ -277,7 +359,11 @@
 				"tags": [
 					"Get tweet by id"
 				],
-				"security": [],
+				"security": [
+					{
+						"jwtOptional": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -300,25 +386,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"anyOf": [
-										{},
-										{
-											"properties": {
-												"message": {
-													"type": "string"
-												},
-												"httpCode": {
-													"type": "number",
-													"format": "double"
-												}
-											},
-											"required": [
-												"message",
-												"httpCode"
-											],
-											"type": "object"
-										}
-									]
+									"$ref": "#/components/schemas/IBasicOutput"
 								}
 							}
 						}
@@ -343,6 +411,59 @@
 						}
 					}
 				]
+			}
+		},
+		"/tweets/{tweetId}/comment": {
+			"post": {
+				"operationId": "CommentTweet",
+				"responses": {
+					"201": {
+						"description": "Added",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"$ref": "#/components/schemas/ITweet_commentsOutput"
+										},
+										{
+											"$ref": "#/components/schemas/IBasicOutput"
+										}
+									]
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Add a comment to a tweet"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "tweetId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ITweet_commentsInputBody"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/users": {

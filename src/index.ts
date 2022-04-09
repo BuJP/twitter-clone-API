@@ -16,6 +16,8 @@ app.use(
   );
 app.use(bodyParser.json());
 
+
+
 require('./models/index');
 
 
@@ -32,6 +34,7 @@ try{
 
 
 db.sync().then(()=>{
+    
     app.listen(PORT,()=>{
         console.log('app runing on port '+ PORT);  
     });
