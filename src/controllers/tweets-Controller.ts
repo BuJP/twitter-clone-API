@@ -1,6 +1,6 @@
 import { ITweetsCreateInput, ITweetsCreateInputBody, ITweetsCreateOutput } from "../models/tweets";
 import { TweetsServices } from "../services/tweetsServices";
-import { Body, Controller, Get, Path, Post, Request, Route, Security, SuccessResponse, Tags } from "tsoa";
+import { Body, Controller, Get, Path, Post, Query, Request, Route, Security, SuccessResponse, Tags } from "tsoa";
 import { ITweet_commentsInput, ITweet_commentsInputBody, ITweet_commentsOutput } from "../models/tweet_comments";
 import { IBasicOutput } from "../models/index";
 
@@ -26,9 +26,9 @@ export class tweetsController extends Controller {
     @SuccessResponse("200", "OK")
     @Security("jwtOptional")
     @Get()
-    public async getAllTweets(@Request() request: any) : Promise<ITweetsCreateOutput[]> {
-        this.setStatus(200);
-        return await new TweetsServices().getAll(request?.user?.id);
+    public async getAllTweets(@Request() request: any, @Query() page: number, @Query() size: number) : Promise<ITweetsCreateOutput[]> {
+        this.setStatus(200);        
+        return await new TweetsServices().getAll(request?.user?.id, page, size);
     }
 
     @Tags("Get tweet by id")

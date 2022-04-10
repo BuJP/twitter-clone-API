@@ -19,12 +19,11 @@ export class TweetsServices {
         return newTweet;
     }
 
-    async getAll(idUser:number | null) : Promise<ITweetsCreateOutput[]> {
+    async getAll(idUser:number | null, page : number, size : number) : Promise<ITweetsCreateOutput[]> {
         const allTweets = await tweets.findAll({
             attributes:["id", 
             "content",
             "createdAt"
-            
             ],
             include:[{
                 model:users,
@@ -41,8 +40,8 @@ export class TweetsServices {
                 }],
                 limit: 2
             }],
-            //offset: 0
-            //limit:5
+            offset: page * size,
+            limit: size
         });
 
             
